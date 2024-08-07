@@ -8,13 +8,8 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String[] args) {
 
-        String currentDir = new File("").getAbsolutePath();
-
-        String ssr = "yl89.fk.txt";
-
-        Pattern pattern = Pattern.compile(".*.txt$");
-        System.out.println(pattern.matcher(ssr).matches());
-
+        //читаем аргументы
+        Arg.updateArguments(args);
 
 
 
