@@ -1,15 +1,28 @@
 package revers.myDomain;
 
-import java.io.File;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Main {
     public static void main(String[] args) {
 
-        //читаем аргументы
-        Arg.updateArguments(args);
+        //отвечает за работу с сырыми аргументами, принимает их и отправляет их наблюдателям
+        RawArgSubject rawArgSubject = new RawArgSubject();
+
+        //отвечает за работу с аргументами, обрабатывает сырые аргументы, и все, что касается файлов и путей отправляет наблюдателям
+        Arg arg = new Arg();
+
+        //отвечает за работу с файлами и путями
+        DirectoriesAndFiles directoriesAndFiles = new DirectoriesAndFiles();
+
+        //добавляем наблюдателей
+        rawArgSubject.registerObserver(arg);
+        arg.registerObserver(directoriesAndFiles);
+
+        //добавляем аргументы
+        rawArgSubject.setNewArgs(args);
+
+        System.out.println(arg);
+        System.out.println("\n\n\n");
+        System.out.println(directoriesAndFiles);
+
 
 
 
