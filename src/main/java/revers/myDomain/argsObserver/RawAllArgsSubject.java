@@ -1,17 +1,14 @@
-package revers.myDomain;
-
-import revers.myDomain.observerPattern.Observer;
-import revers.myDomain.observerPattern.Subject;
+package revers.myDomain.argsObserver;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RawArgSubject implements Subject {
+public class RawAllArgsSubject implements Subject {
     private ArrayList<String> listArgs;
 
     public List<Observer> observers = new ArrayList<Observer>();
 
-    public RawArgSubject() {
+    public RawAllArgsSubject() {
         this.listArgs = new ArrayList<String>();
     }
 

@@ -1,7 +1,4 @@
-package revers.myDomain;
-
-import revers.myDomain.observerPattern.Observer;
-import revers.myDomain.observerPattern.Subject;
+package revers.myDomain.argsObserver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 //Класс для манипуляции с аргументами.
-public class Arg implements Observer, Subject {
+public class ParserArgs implements Observer, Subject {
     //Мапа введенных опциональных аргументов K-значение аргумента V-булеан был ли введен данный аргумент или нет(по умолчанию ни один опциональный аргумент не введен)
     private  Map<String,Boolean> inputOptionalArgument = new HashMap<String,Boolean>();
 
@@ -27,7 +24,7 @@ public class Arg implements Observer, Subject {
     private List<Observer> listObservers = new ArrayList<>();
 
 
-    public Arg() {
+    public ParserArgs() {
         //заполняем дефолтными значениями Мапу введенных опциональных аргументов
         inputOptionalArgument.put("dirForResult", false);
         inputOptionalArgument.put("prefixToFile", false);
@@ -66,8 +63,6 @@ public class Arg implements Observer, Subject {
                 }else {
                     System.out.println(this.rawListArguments.get(i) + " is not a valid argument. The program will try to continue working without this argument");
                 }
-
-                this.notifyObservers();
             }
             catch(IndexOutOfBoundsException e){
                 e.printStackTrace();
@@ -75,6 +70,9 @@ public class Arg implements Observer, Subject {
                 System.out.println("After the entered optional argument not found the value of argument");
             }
         }
+        //прокаидываем данные об аргументах, которые удальсь получить дальше
+        this.notifyObservers();
+
     }
 
     //проверка аргументов

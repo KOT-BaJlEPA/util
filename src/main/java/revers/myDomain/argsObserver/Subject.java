@@ -1,4 +1,4 @@
-package revers.myDomain.observerPattern;
+package revers.myDomain.argsObserver;
 
 public interface Subject {
     public void registerObserver(Observer ...o);

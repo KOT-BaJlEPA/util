@@ -1,6 +1,4 @@
-package revers.myDomain;
-
-import revers.myDomain.observerPattern.Observer;
+package revers.myDomain.argsObserver;
 
 import java.io.File;
 import java.nio.file.Path;

@@ -1,27 +1,34 @@
 package revers.myDomain;
 
+import revers.myDomain.argsObserver.ParserArgs;
+import revers.myDomain.argsObserver.DirectoriesAndFiles;
+import revers.myDomain.argsObserver.RawAllArgsSubject;
+
 public class Main {
     public static void main(String[] args) {
 
-        //отвечает за работу с сырыми аргументами, принимает их и отправляет их наблюдателям
-        RawArgSubject rawArgSubject = new RawArgSubject();
+//        //отвечает за работу с сырыми аргументами, принимает их и отправляет их наблюдателям
+//        RawAllArgsSubject rawArgSubject = new RawAllArgsSubject();
+//
+//        //отвечает за работу с аргументами, обрабатывает сырые аргументы,
+//        // и все, что касается файлов и директорий отправляет своим наблюдателям
+//        ParserArgs arg = new ParserArgs();
+//
+//        //отвечает за работу с файлами и директориями
+//        DirectoriesAndFiles directoriesAndFiles = new DirectoriesAndFiles();
+//
+//        //добавляем наблюдателей
+//        rawArgSubject.registerObserver(arg);
+//        arg.registerObserver(directoriesAndFiles);
+//
+//        // ввод/применение аргументов
+//        rawArgSubject.setNewArgs(args);
 
-        //отвечает за работу с аргументами, обрабатывает сырые аргументы, и все, что касается файлов и путей отправляет наблюдателям
-        Arg arg = new Arg();
 
-        //отвечает за работу с файлами и путями
-        DirectoriesAndFiles directoriesAndFiles = new DirectoriesAndFiles();
 
-        //добавляем наблюдателей
-        rawArgSubject.registerObserver(arg);
-        arg.registerObserver(directoriesAndFiles);
 
-        //добавляем аргументы
-        rawArgSubject.setNewArgs(args);
 
-        System.out.println(arg);
-        System.out.println("\n\n\n");
-        System.out.println(directoriesAndFiles);
+
 
 
 
