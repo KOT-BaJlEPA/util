@@ -1,11 +1,23 @@
 package revers.myDomain;
 
-import revers.myDomain.argsObserver.ParserArgs;
-import revers.myDomain.argsObserver.DirectoriesAndFiles;
-import revers.myDomain.argsObserver.RawAllArgsSubject;
+import revers.myDomain.argsManipulation.DirectoriesAndFiles;
+import revers.myDomain.argsManipulation.ParserArgs;
+import revers.myDomain.argsManipulation.RawAllArgsSubject;
 
 public class Main {
     public static void main(String[] args) {
+
+      String path = "C:\\Users\\regul\\IdeaProjects\\util\\src\\main" +
+              "\\java\\revers\\myDomain\\test.txt";
+
+      String[] arPath = new String[]{path};
+
+
+      Application app = new Application(arPath);
+      app.run();
+
+
+
 
 //        //отвечает за работу с сырыми аргументами, принимает их и отправляет их наблюдателям
 //        RawAllArgsSubject rawArgSubject = new RawAllArgsSubject();

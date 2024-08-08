@@ -1,4 +1,4 @@
-package revers.myDomain.argsObserver;
+package revers.myDomain.argsManipulation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class RawAllArgsSubject implements Subject {
     public void registerObserver(Observer ...o) {
         for (int i = 0; i < o.length; i++) {
             observers.add(o[i]);
-
+            System.out.println("Registered Observer: " + o[i].getClass());
         }
     }
     @Override
@@ -30,9 +30,12 @@ public class RawAllArgsSubject implements Subject {
     public void notifyObservers() {
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).update(this.listArgs);
+            System.out.println("Notified Observer: " + observers.get(i).getClass() + "observers.get(i).update(this.listArgs) "+
+                    this.listArgs +  "size" +  this.listArgs.size());
         }
     }
-    public void setNewArgs(String ...args) {
+    public void setNewArgs(String[] args) {
+        System.out.println("Setting new args: " + args);
         List<String> newArgs = new ArrayList<>();
         for (int i = 0; i < args.length; i++) {
             this.listArgs.add(args[i]);

@@ -1,10 +1,10 @@
-package revers.myDomain.readWrite;
+package revers.myDomain.dirAndFileManipulation;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
-public class ManipulationWithFiles {
+public class ReadWriteFile {
 
     public static String readFile(String pathFile) {
         StringBuilder data = new StringBuilder();
@@ -37,7 +37,7 @@ public class ManipulationWithFiles {
         } catch (IOException e) {
             e.printStackTrace();
             e.getMessage();
-            System.out.println("Error. The program will try to continue working without " +
+            System.out.println("Error writing to file . The program will try to continue working without " +
                     Path.of(pathFile).getFileName()+
                     " file");
         }
