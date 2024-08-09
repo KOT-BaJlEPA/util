@@ -1,25 +1,23 @@
 package revers.myDomain.argsManipulation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
-//Класс для манипуляции с аргументами.
-public class ParserArgs implements Observer, Subject {
-    //Мапа введенных опциональных аргументов K-значение аргумента V-булеан был ли введен данный аргумент или нет(по умолчанию ни один опциональный аргумент не введен)
-    private  Map<String,Boolean> inputOptionalArgument = new HashMap<String,Boolean>();
 
-    //шаблон для проверки, что аргумент похож на имя файла
+//класс отвечает за обработку и хранение введенных аргументов
+public class ParserArgs implements Subject {
+
+    private String[] rawArgs;
+
+    //Мапа введенных опциональных аргументов K-значение аргумента V-булеан был ли введен данный аргумент или нет(по умолчанию ни один опциональный аргумент не введен)
+    private Map<String,Boolean> inputOptionalArgument = new HashMap<String,Boolean>();
+
+    //шаблон для проверки, что аргумент похож ли на имя файла
     private final Pattern patternTxtFile = Pattern.compile(".*.txt");
 
     private String dirForResult = "";
     private String prefixFile = "";
-    private List<String> inputFileList = new ArrayList<String>();
-
-    //лист сырых необработанных аргументов
-    private List<String> rawListArguments = new ArrayList<>();
+    private List<String> inputFileList = new ArrayList<>();
 
     private List<Observer> listObservers = new ArrayList<>();
 
@@ -33,74 +31,84 @@ public class ParserArgs implements Observer, Subject {
         inputOptionalArgument.put("longStatistic", false);
     }
 
-    //обрабатывает лист сырых аргументов и оповещает Observer DirectoryInputOutputFile
-    private void parseArguments() {
+    public void setRawArgs(String ...args) {
+        this.rawArgs = args;
         //проверка, что есть хотябы один входной файл
-        if(isInvalidArgument()){
-            return;
+        if(!this.isInvalidArgument()){
+            this.parseArguments();
         }
+    }
+
+
+    //обрабатывает лист сырых аргументов и оповещает наблюдателя DirectoryInputOutputFile
+    private void parseArguments() {
         //Перебираем все введенные аргументы, распределяя их в соответствии с их смысловой нагрузкой
-        for (int i = 0; i < this.rawListArguments.size(); i++) {
+        for (int i = 0; i < this.rawArgs.length; i++) {
             //Try Catch на случай если будет опциональный аргумент за, которым должно быть значеие, но значение не введут
             try{
-                if (this.rawListArguments.get(i).trim().equals("-o")) {
+                if (this.rawArgs[i].trim().equals("-o")) {
                     inputOptionalArgument.put("dirForResult", true);
-                    this.dirForResult = this.rawListArguments.get(i+1).trim();
+                    this.dirForResult = this.rawArgs[i+1].trim();
                     i++;
-                }else if (this.rawListArguments.get(i).trim().equals("-p")) {
+                }else if (this.rawArgs[i].trim().equals("-p")) {
                     inputOptionalArgument.put("prefixToFile", true);
-                    prefixFile = this.rawListArguments.get(i+1).trim();
+                    prefixFile = this.rawArgs[i+1].trim();
                     i++;
-                }else if (this.rawListArguments.get(i).trim().equals("-a")) {
-                    inputOptionalArgument.put("addToFile", true);
-                    i++;
-                }else if (this.rawListArguments.get(i).trim().equals("-s")) {
+                }else if (this.rawArgs[i].trim().equals("-a")) {
+                    inputOptionalArgument.put("addToFile", true);;
+                }else if (this.rawArgs[i].trim().equals("-s")) {
                     inputOptionalArgument.put("shortStatistic", true);
-                }else if (this.rawListArguments.get(i).trim().equals("-f")) {
+                }else if (this.rawArgs[i].trim().equals("-f")) {
                     inputOptionalArgument.put("longStatistic", true);
-                } else if (patternTxtFile.matcher(this.rawListArguments.get(i).trim()).matches()) {
-                    this.inputFileList.add(this.rawListArguments.get(i).trim());
+                } else if (patternTxtFile.matcher(this.rawArgs[i].trim()).matches()) {
+                    this.inputFileList.add(this.rawArgs[i].trim());
                 }else {
-                    System.out.println(this.rawListArguments.get(i) + " is not a valid argument. The program will try to continue working without this argument");
+                    System.out.println(this.rawArgs[i] + " is not a valid argument. The program will try to continue working without this argument");
                 }
             }
             catch(IndexOutOfBoundsException e){
                 e.printStackTrace();
                 e.getCause();
-                System.out.println("After the entered optional argument not found the value of argument");
+                System.out.println("After the entered optional argument not found the value of argument" +
+                        "\n The program will try to continue working without this argument");
             }
         }
-        //прокаидываем данные об аргументах, которые удальсь получить дальше
+        //оповещаем наблюдателей что появились аргументы
         this.notifyObservers();
-
     }
+
+    public boolean isAppend(){
+        return inputOptionalArgument.get("addToFile");
+    }
+
+    public boolean isFullStatistic(){
+        return inputOptionalArgument.get("longStatistic");
+    }
+
+    public boolean isShortStatistic(){
+        return inputOptionalArgument.get("shortStatistic");
+    }
+
 
     //проверка аргументов
     private  boolean isInvalidArgument(){
         boolean isInvalid = true;
         //проверка, что есть хотябы один входной файл
-        if(!this.rawListArguments.isEmpty()){
-            for (int i = 0; i < this.rawListArguments.size(); i++) {
-                if(patternTxtFile.matcher(this.rawListArguments.get(i).trim()).matches()){
+        if(this.rawArgs.length>0){
+            for (int i = 0; i < this.rawArgs.length; i++) {
+                if(patternTxtFile.matcher(this.rawArgs[i].trim()).matches()){
                     isInvalid = false;
                     break;
                 }
-                if(isInvalid){
-                    System.out.println("No input file found ");
-                }
+
+            }
+            if(isInvalid){
+                System.out.println("No input file found ");
             }
         }else {
             System.out.println("args is empty try again");
         }
         return isInvalid;
-    }
-
-
-    //сохраняем лист сырых аргументов и обрабатываем его this.updateArguments()
-    @Override
-    public void update(List<String> listArgs) {
-        this.rawListArguments = listArgs;
-        this.parseArguments();
     }
 
 
@@ -130,19 +138,16 @@ public class ParserArgs implements Observer, Subject {
 
     @Override
     public String toString() {
-        return "Arg{" +
-                "inputOptionalArgument=" + inputOptionalArgument +
-                ", patternTxtFile=" + patternTxtFile +
-                ", dirForResult='" + dirForResult + '\'' +
-                ", prefixFile='" + prefixFile + '\'' +
-                ", inputFileList=" + inputFileList +
-                ", rawListArguments=" + rawListArguments +
-                ", listObservers=" + listObservers +
-                '}';
+        return "\nArg{" +
+                "\ninputOptionalArgument=" + inputOptionalArgument +
+                ", \npatternTxtFile=" + patternTxtFile +
+                ", \ndirForResult='" + dirForResult + '\'' +
+                ", \nprefixFile='" + prefixFile + '\'' +
+                ", \ninputFileList=" + inputFileList +
+                ", \nrawArgs=" + rawArgs.length+
+                ", \nlistObservers=" + listObservers +
+                "\n}";
     }
 
-    //plug
-    @Override
-    public void update(String dirForResult, String prefixFile, List<String> listArgs) {
-    }
 }
+

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//класс отвечает за обработку и хранение данных
 public class DataWorker {
     private List<Integer> integerList;
     private List<Double> doubleListList;
@@ -24,6 +25,9 @@ public class DataWorker {
     }
 
     private void separatorData(String line){
+        if(line.length()==0){
+            return;
+        }
         int intValue;
         double doubleValue;
         try {
@@ -40,12 +44,22 @@ public class DataWorker {
         }
     }
 
+    public List<Integer> getIntegerList(){
+        return this.integerList;
+    }
+    public List<Double> getDoubleListList(){
+        return this.doubleListList;
+    }
+    public List<String> getStringList(){
+        return this.stringList;
+    }
+
     @Override
     public String toString() {
-        return "DataWorker{" +
-                "integerList=" + integerList +
-                ", doubleListList=" + doubleListList +
-                ", stringList=" + stringList +
-                '}';
+        return "\nDataWorker{" +
+                "\nintegerList=" + integerList +
+                ", \ndoubleListList=" + doubleListList +
+                ", \nstringList=" + stringList +
+                "\n}";
     }
 }
