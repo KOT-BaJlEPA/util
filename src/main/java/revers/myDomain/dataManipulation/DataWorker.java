@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 //класс отвечает за обработку и хранение данных
 public class DataWorker {
-    private List<Integer> integerList;
+    private List<Long> longsList;
     private List<Double> doubleListList;
     private List<String> stringList;
 
     public DataWorker() {
-        this.integerList = new ArrayList<Integer>();
+        this.longsList = new ArrayList<Long>();
         this.doubleListList = new ArrayList<Double>();
         this.stringList = new ArrayList<String>();
     }
@@ -28,11 +28,11 @@ public class DataWorker {
         if(line.length()==0){
             return;
         }
-        int intValue;
+        long longValue;
         double doubleValue;
         try {
-            intValue = Integer.parseInt(line);
-            this.integerList.add(intValue);
+            longValue = Long.parseLong(line);
+            this.longsList.add(longValue);
         }catch (NumberFormatException e){
             try {
                 doubleValue = Double.parseDouble(line);
@@ -44,8 +44,8 @@ public class DataWorker {
         }
     }
 
-    public List<Integer> getIntegerList(){
-        return this.integerList;
+    public List<Long> getLongList(){
+        return this.longsList;
     }
     public List<Double> getDoubleListList(){
         return this.doubleListList;
@@ -57,7 +57,7 @@ public class DataWorker {
     @Override
     public String toString() {
         return "\nDataWorker{" +
-                "\nintegerList=" + integerList +
+                "\nintegerList=" + longsList +
                 ", \ndoubleListList=" + doubleListList +
                 ", \nstringList=" + stringList +
                 "\n}";

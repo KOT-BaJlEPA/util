@@ -13,7 +13,8 @@ public class DirFileManipulation {
         boolean isCreatedFileInteger = false;
         boolean isCreatedFileFloat = false;
         boolean isCreatedFileString = false;
-        if(!dataWorker.getIntegerList().isEmpty()){
+        //проверяем какие файлы и директории нужно создать
+        if(!dataWorker.getLongList().isEmpty()){
             isCreatedDir = true;
             isCreatedFileInteger = true;
         }
@@ -27,14 +28,13 @@ public class DirFileManipulation {
             isCreatedFileString = true;
         }
 
-
+        //создаем необходимые директории и файлы
         if(isCreatedDir){
             File diructory = new File(directoriesAndFiles.getDirForResult());
             if(!diructory.exists()){
                 diructory.mkdirs();
             }
         }
-
         if(isCreatedFileInteger){
             File fileInteger = new File(directoriesAndFiles.getFullPathForInteger());
             if(!fileInteger.exists()){
@@ -47,7 +47,6 @@ public class DirFileManipulation {
                 }
             }
         }
-
         if(isCreatedFileFloat){
             File fileFloat = new File(directoriesAndFiles.getFullPathForFloats());
             if(!fileFloat.exists()){
@@ -60,7 +59,6 @@ public class DirFileManipulation {
                 }
             }
         }
-
         if(isCreatedFileString){
             File fileString = new File(directoriesAndFiles.getFullPathForString());
             if(!fileString.exists()){

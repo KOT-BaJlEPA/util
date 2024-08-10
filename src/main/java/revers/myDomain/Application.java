@@ -25,11 +25,6 @@ public class Application {
     }
 
 
-    private void createDependencies(){
-        this.parserArgs.registerObserver(this.directoriesAndFiles);
-        this.parserArgs.setRawArgs(this.args);
-    }
-
     public void run(){
         this.createDependencies();
         this.readFiles();
@@ -43,6 +38,11 @@ public class Application {
         }
     }
 
+    private void createDependencies(){
+        this.parserArgs.registerObserver(this.directoriesAndFiles);
+        this.parserArgs.setRawArgs(this.args);
+    }
+
     private void readFiles(){
         String rawData;
         for ( String inputFile: this.directoriesAndFiles.getListInputFiles()) {
@@ -52,7 +52,7 @@ public class Application {
     }
     private void writeFiles(){
         DirFileManipulation.createDirAndFile(this.directoriesAndFiles, this.dataWorker);
-        if(!dataWorker.getIntegerList().isEmpty()){
+        if(!dataWorker.getLongList().isEmpty()){
                 String valueFoWrite = bildListIntegerToString();
                 ReadWriteFile.writeFile(this.directoriesAndFiles.getFullPathForInteger(), valueFoWrite, this.parserArgs.isAppend());
         }
@@ -69,7 +69,7 @@ public class Application {
 
     private String bildListIntegerToString(){
         StringBuilder result = new StringBuilder();
-        this.dataWorker.getIntegerList().stream().forEach((el)->{
+        this.dataWorker.getLongList().stream().forEach((el)->{
             result.append(el.toString() + "\n");
         });
         return result.toString();

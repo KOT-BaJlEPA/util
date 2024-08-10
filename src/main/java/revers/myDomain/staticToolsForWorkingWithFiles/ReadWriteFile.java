@@ -17,14 +17,10 @@ public class ReadWriteFile {
             }
 
         }catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//            e.getMessage();
             System.out.println("File not found. The program will try to continue working without " +
                     Path.of(pathFile).getFileName()+
                     " file");
         }catch (IOException e) {
-//            e.printStackTrace();
-//            e.getMessage();
             System.out.println("Error. The program will try to continue working without " +
                     Path.of(pathFile).getFileName()+
                     " file");
@@ -36,8 +32,6 @@ public class ReadWriteFile {
         try (BufferedWriter bf = new BufferedWriter(new FileWriter(pathFile, StandardCharsets.UTF_8, append))){
             bf.write(data+"\n");
         } catch (IOException e) {
-//            e.printStackTrace();
-//            e.getMessage();
             System.out.println("Error writing to file . The program will try to continue working without " +
                     Path.of(pathFile).getFileName()+
                     " file");
