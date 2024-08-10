@@ -8,4 +8,4 @@ Java version - 21.0.2
 
  для теста
  Перейти в директорию где находится Джарник, запустить Джарник в cmd следующей командой
- java -jar util.jar testSource.txt testSource2.txt -s -p -p prefix  -f  wrongArgument wrongFile.tx.
+ java -jar util.jar testSource.txt testSource2.txt -s -p -p prefix  -f  wrongArgument
