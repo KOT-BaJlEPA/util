@@ -36,6 +36,7 @@ public class Application {
         if(this.parserArgs.isFullStatistic()){
             this.statistic.fullStatistic();
         }
+        System.out.println("Done!");
     }
 
     private void createDependencies(){

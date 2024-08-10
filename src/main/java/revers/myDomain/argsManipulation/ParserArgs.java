@@ -34,7 +34,7 @@ public class ParserArgs implements Subject {
     public void setRawArgs(String ...args) {
         this.rawArgs = args;
         //проверка, что есть хотябы один входной файл
-        if(!this.isInvalidArgument()){
+        if(!this.isInvalidArguments()){
             this.parseArguments();
         }
     }
@@ -47,13 +47,23 @@ public class ParserArgs implements Subject {
             //Try Catch на случай если будет опциональный аргумент за, которым должно быть значеие, но значение не введут
             try{
                 if (this.rawArgs[i].trim().equals("-o")) {
-                    inputOptionalArgument.put("dirForResult", true);
-                    this.dirForResult = this.rawArgs[i+1].trim();
-                    i++;
+                    if(this.isInvalidValueOfOptionalArgument(this.rawArgs[i+1].trim())){
+                        System.out.println("After Optional argument : " + this.rawArgs[i].trim() + " is invalid values : " + this.rawArgs[i+1].trim());
+                        System.out.println("The program will try to continue working without this arguments");
+                    }else {
+                        inputOptionalArgument.put("dirForResult", true);
+                        this.dirForResult = this.rawArgs[i+1].trim();
+                        i++;
+                    }
                 }else if (this.rawArgs[i].trim().equals("-p")) {
-                    inputOptionalArgument.put("prefixToFile", true);
-                    prefixFile = this.rawArgs[i+1].trim();
-                    i++;
+                    if(this.isInvalidValueOfOptionalArgument(this.rawArgs[i+1].trim())){
+                        System.out.println("After Optional argument : " + this.rawArgs[i].trim() + " is invalid values : " + this.rawArgs[i+1].trim());
+                        System.out.println("The program will try to continue working without this arguments");
+                    }else {
+                        inputOptionalArgument.put("prefixToFile", true);
+                        this.prefixFile= this.rawArgs[i+1].trim();
+                        i++;
+                    }
                 }else if (this.rawArgs[i].trim().equals("-a")) {
                     inputOptionalArgument.put("addToFile", true);;
                 }else if (this.rawArgs[i].trim().equals("-s")) {
@@ -67,8 +77,6 @@ public class ParserArgs implements Subject {
                 }
             }
             catch(IndexOutOfBoundsException e){
-                e.printStackTrace();
-                e.getCause();
                 System.out.println("After the entered optional argument not found the value of argument" +
                         "\n The program will try to continue working without this argument");
             }
@@ -90,8 +98,25 @@ public class ParserArgs implements Subject {
     }
 
 
+    //проверяет есть ли после опционального аргумента значение аргумента
+    private boolean isInvalidValueOfOptionalArgument(String value){
+        boolean isInvalid = false;
+        String[] wrongValues = {"-o","-p","-s","-f","-a"};
+        //если следующий аргумент соответствует одному из элементов wrongValues[], то это не значение аргумента а друой аргумент
+        for (int i = 0; i <wrongValues.length; i++) {
+            if(value.equals(wrongValues[i])){
+                isInvalid = true;
+            }
+        }
+        //если следующий аргумент соответствует шаблону this.patternTxtFile, то это не значение аргумента а имя файла
+        if(this.patternTxtFile.matcher(value).matches()){
+            isInvalid = true;
+        }
+        return isInvalid;
+    }
+
     //проверка аргументов
-    private  boolean isInvalidArgument(){
+    private  boolean isInvalidArguments(){
         boolean isInvalid = true;
         //проверка, что есть хотябы один входной файл
         if(this.rawArgs.length>0){
@@ -100,7 +125,6 @@ public class ParserArgs implements Subject {
                     isInvalid = false;
                     break;
                 }
-
             }
             if(isInvalid){
                 System.out.println("No input file found ");
